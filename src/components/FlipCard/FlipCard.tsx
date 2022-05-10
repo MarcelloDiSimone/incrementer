@@ -6,16 +6,21 @@ class FlipCard extends Component<any, any> {
   constructor(props: any) {
     super(props);
 
+    // get an element reference to the root node
     this.root = React.createRef();
   }
 
   componentDidMount() {
+    // set default css variables
+    // they are used by :after pseudo elements in the stylesheet to display the flip numbers
     this.root.current?.style.setProperty('--counter', '' + this.props.startWith);
     this.root.current?.style.setProperty('--counter-next', '' + (this.props.startWith + 1));
   }
 
   flip(current: number, next?: number) {
+    // remove the play class to be able to retrigger the animation
     this.root.current?.classList.remove('play');
+    // overwrite the default values with those passed by the function call
     this.root.current?.style.setProperty('--counter', '' + current);
     this.root.current?.style.setProperty('--counter-next', '' + ((next !== undefined)? next: (current + 1)));
     let flipCard = document.querySelector('.active');
