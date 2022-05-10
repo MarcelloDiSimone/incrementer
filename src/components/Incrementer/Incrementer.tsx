@@ -14,7 +14,7 @@ class Incrementer extends Component<any, any> {
   constructor(props: any) {
     super(props);
 
-    // get a element reference to the FlipCard element
+    // get an element reference to the FlipCard element
     this.flipCardRef = React.createRef();
   }
 
@@ -25,13 +25,15 @@ class Incrementer extends Component<any, any> {
 
   onPause = () => {
     // pause by clearing the interval
-    clearInterval(this.intId);
+    if (this.intId) {
+      clearInterval(this.intId);
+    }
   }
 
   onPlay = () => {
-    // clear current interval if intId is set, to prevent that more than one interval is
+    // clear current interval if there is one. Prevent multiple intervals from
     // running and incrementing the state (i.e. when clicking the play button several times)
-    if (this.intId) this.onPause();
+    this.onPause();
     this.intId = setInterval(() => {
       this.increment();
     }, this.state.incrementInterval);
