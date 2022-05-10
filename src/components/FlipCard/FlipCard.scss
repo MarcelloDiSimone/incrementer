@@ -1,0 +1,202 @@
+@import "src/mixin/index";
+
+.flip-container {
+  @include bewel();
+  --counter: 0;
+  --counter-next: 1;
+  --animation-speed: .3s;
+  --animation-delay: .15s;
+  padding: 2px;
+  width: 204px;
+  height: 94px;
+  border-radius: 6px;
+}
+
+/* Skeleton */
+.flip {
+  position: relative;
+  float: left;
+  width: 200px;
+  height: 90px;
+  font-size: 80px;
+  font-weight: bold;
+  line-height: 87px;
+  border-radius: 6px;
+
+  & > div {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    perspective: 200px;
+
+    &:first-child {
+      z-index: 2;
+    }
+
+    & > div {
+      z-index: 1;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+
+      &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+
+      &:after {
+        counter-reset: counter var(--counter);
+        content: counter(counter);
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 200%;
+        color: #ccc;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+        text-align: center;
+        border-radius: 6px;
+        background-color: #777;
+      }
+    }
+  }
+
+  .top {
+    transform-origin: 50% 100%;
+    top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+
+    &:after {
+      top: 0;
+    }
+  }
+
+  .bottom {
+    transform-origin: 50% 0;
+    bottom: 0;
+    &:after {
+      bottom: 0;
+    }
+  }
+}
+
+
+/* PLAY */
+
+.play .flip {
+  .before {
+    z-index: 3;
+
+    .top {
+      z-index: 2;
+      animation: turn2 var(--animation-speed) linear both;
+
+      &:before {
+        background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.1) 0%,
+                rgba(0, 0, 0, 1) 100%
+        );
+        animation: show var(--animation-speed) linear both;
+      }
+    }
+    .bottom:before {
+      background: linear-gradient(
+              to bottom,
+              rgba(0, 0, 0, 1) 0%,
+              rgba(0, 0, 0, 0.1) 100%
+      );
+      animation: show var(--animation-speed) linear both;
+    }
+  }
+  .active {
+    animation: flipIndex var(--animation-speed) var(--animation-speed) linear both;
+    z-index: 2;
+
+    > div:after {
+      counter-increment: counter-next var(--counter-next);
+      content: counter(counter-next);
+    }
+
+    .top:before {
+      background: linear-gradient(
+              to bottom,
+              rgba(0, 0, 0, 0.1) 0%,
+              rgba(0, 0, 0, 1) 100%
+      );
+      animation: hide var(--animation-speed) var(--animation-delay) linear both;
+    }
+
+    .bottom {
+      z-index: 2;
+      animation: turn var(--animation-speed) var(--animation-speed) linear both;
+
+      &:before {
+        background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(0, 0, 0, 0.1) 100%
+        );
+        animation: hide var(--animation-speed) var(--animation-delay) linear both;
+      }
+    }
+  }
+}
+
+@keyframes flipIndex {
+  0% {
+    z-index: 2;
+  }
+  5% {
+    z-index: 4;
+  }
+  100% {
+    z-index: 4;
+  }
+}
+
+@keyframes turn {
+  0% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+
+@keyframes turn2 {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
