@@ -61,7 +61,6 @@ class Incrementer extends Component<any, any> {
       <FlipCard ref={this.flipCardRef} startWith={this.state.counter} />
 
       <div className="button-container">
-        <p>{this.state.isPlaying}</p>
         <button className={`button ${this.state.isPlaying ? 'active' : ''}`} onClick={this.onPlay}>Start</button>
         <button className="button" onClick={this.onReset}>Reset</button>
         <button className={`button ${this.state.isPlaying ? '' : 'active'}`} onClick={this.onPause}>Stop</button>
