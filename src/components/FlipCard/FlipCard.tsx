@@ -3,6 +3,7 @@ import './FlipCard.scss';
 
 class FlipCard extends Component<any, any> {
   readonly root: any = null;
+
   constructor(props: any) {
     super(props);
 

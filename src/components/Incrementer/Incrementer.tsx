@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import './Incrementer.scss';
 import FlipCard from '../FlipCard/FlipCard';
+import './Incrementer.scss';
 
 class Incrementer extends Component<any, any> {
   private intId: any;
   readonly flipCardRef: React.RefObject<FlipCard>;
   // set the state with default counter value and the interval duration in milliseconds
   state = {
+    isPlaying: false,
     counter: 0,
     incrementInterval: 500
   };
@@ -28,6 +29,7 @@ class Incrementer extends Component<any, any> {
     if (this.intId) {
       clearInterval(this.intId);
     }
+    this.setState({isPlaying: false});
   }
 
   onPlay = () => {
@@ -37,6 +39,7 @@ class Incrementer extends Component<any, any> {
     this.intId = setInterval(() => {
       this.increment();
     }, this.state.incrementInterval);
+    this.setState({isPlaying: true});
   }
 
   increment = () => {
@@ -58,9 +61,10 @@ class Incrementer extends Component<any, any> {
       <FlipCard ref={this.flipCardRef} startWith={this.state.counter} />
 
       <div className="button-container">
-        <button className="button" onClick={this.onPlay}>Start</button>
+        <p>{this.state.isPlaying}</p>
+        <button className={`button ${this.state.isPlaying ? 'active' : ''}`} onClick={this.onPlay}>Start</button>
         <button className="button" onClick={this.onReset}>Reset</button>
-        <button className="button" onClick={this.onPause}>Stop</button>
+        <button className={`button ${this.state.isPlaying ? '' : 'active'}`} onClick={this.onPause}>Stop</button>
       </div>
     </div>;
   }

@@ -9,7 +9,7 @@
 
 .button {
   @include bewel;
-  @include striped;
+  @include striped(#00748b, #00748b);
   border-radius: 6px;
   outline: none;
   border: none;
@@ -20,4 +20,12 @@
   font-weight: 600;
   user-select: none;
   cursor: pointer;
+
+  &.active {
+    @include striped(#17ace0, #17ace0);
+  }
+
+  &:hover:not(.active) {
+    @include striped(#17ace0, #00748b);
+  }
 }
